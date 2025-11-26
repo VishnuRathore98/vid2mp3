@@ -11,7 +11,8 @@ class User(Base):
         Uuid,
         primary_key=True,
         nullable=False,
-        server_default=text("uuid_generate_v4()"),
+        server_default=text("gen_random_uuid()"), # to use gen_random_uuid() run the following command in psql after connecting with the database: CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
     )
     full_name = Column(String, nullable=False)
     email = Column(String, nullable=False, unique=True)

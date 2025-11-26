@@ -1,12 +1,13 @@
 from pydantic import BaseModel, EmailStr
-from sqlalchemy.types import DateTime
+from datetime import datetime
+from uuid import UUID
 
 
 class User(BaseModel):
     user_id: str
     full_name: str
     email: EmailStr
-    created_at: DateTime
+    created_at: datetime
 
 
 class UserRegister(BaseModel):
@@ -21,7 +22,7 @@ class UserLogin(BaseModel):
 
 
 class UserOut(BaseModel):
-    user_id: str
+    id: UUID
     email: EmailStr
 
 

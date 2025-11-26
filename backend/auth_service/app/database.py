@@ -3,13 +3,14 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 
-POSTGRES_DATABASE_URL = "postgresql://vpsr:12345678@localhost/vid2mp3_auth_db"
+POSTGRES_DATABASE_URL = "postgresql://vpsr:12345678@localhost:5432/vid2mp3_auth_db"
 
 engine = create_engine(POSTGRES_DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
 
 def get_db():
     db = SessionLocal()

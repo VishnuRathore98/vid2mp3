@@ -1,6 +1,7 @@
 from fastapi import APIRouter, status, Depends
 from app.database import get_db
 from app.schemas import user_schemas
+from app.models.user_models import User
 from sqlalchemy.orm import Session
 from app.utils.security import get_current_user
 
@@ -16,7 +17,12 @@ router = APIRouter(prefix="/auth/v1", tags=["Users"])
 async def register_user(
     data: user_schemas.UserRegister,
     db: Session = Depends(get_db),
-): ...
+):
+    user_data = User(**data.model_dump())
+    db.add(user_data)
+    db.commit()
+    db.refresh(user_data)
+    return user_data
 
 
 @router.get("/me", status_code=status.HTTP_200_OK, response_model=user_schemas.UserOut)
