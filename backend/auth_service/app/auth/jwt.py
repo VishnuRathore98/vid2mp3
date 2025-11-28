@@ -15,7 +15,7 @@ ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 10
 
 
-def create_access_token() -> str:
+def create_access_token(data: dict) -> str:
     """
     Creates a JWT access token.
     """

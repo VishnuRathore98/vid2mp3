@@ -6,15 +6,15 @@ Contains pure CRUD + query functions.
 Does not include business logic.
 """
 
-from fastapi import Depends
 from sqlalchemy.orm import Session
 from app.models.user_models import User
-from app.database import get_db
+from app.auth.password import hash_password
 
 
-async def get_user_by_id(user_id: int):
+async def get_user_by_id(user_id: int, db: Session):
     """Fetch a user by ID."""
-    pass
+    user = db.query(User).filter(User.id == user_id).first()
+    return user
 
 
 async def get_user_by_email(email: str, db: Session):
@@ -27,6 +27,10 @@ async def get_user_by_email(email: str, db: Session):
 
 async def create_user(user_data, db: Session):
     """Insert a new user into the database."""
+    print("simple_password: ", user_data)
+    hashed_password = hash_password(user_data.password)
+    user_data.password = hashed_password
+    print("hashed_password: ", user_data)
     new_user = User(**user_data.model_dump())
     db.add(new_user)
     db.commit()
