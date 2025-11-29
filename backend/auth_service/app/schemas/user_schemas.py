@@ -4,7 +4,7 @@ from uuid import UUID
 
 
 class User(BaseModel):
-    user_id: str
+    id: str
     full_name: str
     email: EmailStr
     created_at: datetime
