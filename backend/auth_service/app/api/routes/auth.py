@@ -30,3 +30,8 @@ async def login(user_data: user_schemas.UserLogin, db: Session = Depends(get_db)
     access_token = create_access_token(data)
 
     return {"token": access_token, "token_type": "Bearer"}
+
+
+@router.get("/confirm/{token}")
+async def confirm_email(token: str):
+    return {"message": "you are verified"}

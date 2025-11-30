@@ -35,7 +35,7 @@ export default function LoginPage() {
     }
 
     try {
-      const res = await axios.post("http://localhost:8000/api/login", form);
+      const res = await axios.post("http://localhost:8000/auth/v1/login", form);
       
       if (res.status === 200) {
         setMessage("Logged in successfully!");

@@ -1,8 +1,9 @@
-from fastapi import APIRouter, status, Depends, HTTPException
+from fastapi import APIRouter, status, Depends, HTTPException, Request
 from app.database import get_db
 from app.schemas import user_schemas
 from sqlalchemy.orm import Session
 from app.auth.dependencies import get_current_user
+from app.auth.jwt import create_access_token
 from app.repositories.user_repository import (
     create_user,
     get_user_by_email,
@@ -16,10 +17,10 @@ router = APIRouter(prefix="/auth/v1", tags=["Users"])
 @router.post(
     "/register",
     status_code=status.HTTP_201_CREATED,
-    response_model=user_schemas.UserOut,
 )
 async def register_user(
     user_data: user_schemas.UserRegister,
+    request: Request,
     db: Session = Depends(get_db),
 ):
     if await get_user_by_email(user_data.email, db):
@@ -28,7 +29,8 @@ async def register_user(
             detail="User already exists with this email",
         )
     created_user = await create_user(user_data, db)
-    return created_user
+    data = {"user_id": str(created_user.id)}
+    return {**created_user.__dict__,"confirmation_url": request.url_for("confirm_email", token=create_access_token(data),)}
 
 
 @router.get("/me", status_code=status.HTTP_200_OK, response_model=user_schemas.UserOut)
@@ -38,7 +40,7 @@ async def get_user(
 
 
 @router.patch(
-    "/update", status_code=status.HTTP_200_OK, response_model=user_schemas.UserOut
+    "/update", status_code=status.HTTP_200_OK, response_model=user_schemas.UserOut, 
 )
 async def update_user(
     data: user_schemas.UserUpdate,

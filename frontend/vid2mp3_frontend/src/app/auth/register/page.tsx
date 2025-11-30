@@ -7,13 +7,13 @@ import {z} from "zod";
 import {useRouter} from "next/navigation";
 
 const fieldSchema = z.object({
-  fullname: z.string().min(1, "Name is required."),
+  full_name: z.string().min(1, "Name is required."),
   email: z.string().email("Invalid Email Format"),
   password: z.string().min(1,"Password is required")
 });
 
 interface RegisterForm {
-  fullname: string;
+  full_name: string;
   email: string;
   password: string;
 }
@@ -21,7 +21,7 @@ interface RegisterForm {
 export default function RegisterPage() {
   const router = useRouter();
 
-  const [form, setForm] = useState<RegisterForm>({ fullname:"", email: "", password: "" });
+  const [form, setForm] = useState<RegisterForm>({ full_name:"", email: "", password: "" });
   const [message, setMessage] = useState<string>("");
 
   // Handles input changes
@@ -39,7 +39,7 @@ export default function RegisterPage() {
     }
 
     try {
-      const res = await axios.post("http://localhost:8000/api/register", form);
+      const res = await axios.post("http://localhost:8000/auth/v1/register", form);
 
       if (res.status === 201) {
         setMessage("Registered Successfully!");
@@ -63,8 +63,8 @@ export default function RegisterPage() {
 
       <TextField
         label="Full name"
-        name="fullname"
-        value={form.fullname}
+        name="full_name"
+        value={form.full_name}
         onChange={handleChange}
         required
       />
