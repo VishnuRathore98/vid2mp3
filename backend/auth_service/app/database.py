@@ -1,9 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from app.core.config import settings
 
 
-POSTGRES_DATABASE_URL = "postgresql://vpsr:12345678@localhost:5432/vid2mp3_auth_db"
+POSTGRES_DATABASE_URL = settings.DATABASE_URL
+
 
 engine = create_engine(POSTGRES_DATABASE_URL)
 
