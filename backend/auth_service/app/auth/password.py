@@ -9,6 +9,7 @@ Contains ONLY crypto utilities.
 """
 
 from passlib.context import CryptContext
+from passlib.exc import UnknownHashError
 
 
 # `deprecated="auto"` tells Passlib to automatically mark older hashing schemes as deprecated
@@ -36,5 +37,9 @@ def verify_password(password: str, hashed_password: str) -> bool:
     """
     Verify that a plaintext password matches a stored hash.
     """
-    is_password_varified = pwd_context.verify(password, hashed_password)
+    try:
+        is_password_varified = pwd_context.verify(password, hashed_password)
+    except UnknownHashError as e:
+        print("Hasing error: ", e)
+        is_password_varified = False
     return is_password_varified
