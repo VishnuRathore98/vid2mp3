@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap 
+metadata:
+  name: auth-configmap
+data:
+  DATABASE_HOST: host.minikube.internal
+  DATABASE_USER: vpsr
+  DATABASE_DB: vid2mp3_auth_db
+  DATABASE_PORT: 5432
