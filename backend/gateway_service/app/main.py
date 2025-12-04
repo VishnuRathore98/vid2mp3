@@ -1,6 +1,11 @@
-def main():
-    print("Hello from gateway-service!")
+from fastapi import FastAPI 
+from app.api import auth
+
+app = FastAPI()
 
 
-if __name__ == "__main__":
-    main()
+@app.get("/")
+def root_gateway():
+    return {"message":"gateway service active!"}
+
+@app.include_router(auth.router)
