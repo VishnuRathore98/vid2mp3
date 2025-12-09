@@ -4,7 +4,12 @@ import requests
 
 
 def user_login(request):
-    auth = request.authorization
+    """
+    This method will handle user login and token generation.
+    """
+    auth = (
+        request.authorization
+    )  # to get the auth data like email and password from the request
     if not auth:
         return HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, detail="Not authenticated"
@@ -20,3 +25,9 @@ def user_login(request):
 
     else:
         return response.text
+
+
+def token_validate(token: str):
+    """
+    Validate the user token, check expiry and tempermant.
+    """
