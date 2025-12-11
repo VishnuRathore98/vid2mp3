@@ -23,7 +23,7 @@ async def file_upload(file_descriptor, gridfs, channel, user_id):
             routing_key="video",
             body=json.dumps(message),
             properties=pika.BasicProperties(
-                delivery_mode=pika.__spec__.PERSISTENT_DELIVERY_MODE
+                delivery_mode=pika.DeliveryMode.Persistent,
             ),
         )
     except:
