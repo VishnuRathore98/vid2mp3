@@ -5,7 +5,7 @@ router = APIRouter(prefix="/api/v1/notification")
 
 
 @router.post("/send_mail")
-async def email(sender:str, receipient: str, data: str):
+async def email():
     # send mail to sender from receipient with data
-    pass
-    
+
+    send_mail()
